@@ -3,7 +3,7 @@ import os
 from PIL import Image
 
 
-def sort_images_by_resolution(from_path='.', to_path='.'):
+def get_images_list(path):
 
     images_list = []
 
@@ -20,6 +20,12 @@ def sort_images_by_resolution(from_path='.', to_path='.'):
                 image.close()
             except Exception as error:
                 print(f"Error with file  '{file_name}' - {error}")
+
+    return images_list
+
+def sort_images_by_resolution(from_path='.', to_path='.'):
+
+    images_list = get_images_list(from_path)
 
     if not os.path.exists(to_path):
         os.makedirs(to_path)
