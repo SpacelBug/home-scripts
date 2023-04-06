@@ -23,6 +23,7 @@ def get_images_list(path):
 
     return images_list
 
+
 def sort_images_by_resolution(from_path='.', to_path='.'):
 
     images_list = get_images_list(from_path)
@@ -34,3 +35,5 @@ def sort_images_by_resolution(from_path='.', to_path='.'):
         if not os.path.exists(image.get('resolution')):
             os.makedirs(image.get('resolution'))
         os.rename(image.get('path'), f"{to_path}\\{image.get('resolution')}\\{image.get('name')}")
+
+    return get_images_list(to_path)
