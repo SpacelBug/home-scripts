@@ -7,7 +7,7 @@ def get_images_list(path):
 
     images_list = []
 
-    for path, directories, file_names in os.walk(from_path):
+    for path, directories, file_names in os.walk(path):
         for file_name in file_names:
             try:
                 image = Image.open(f'{path}\{file_name}')
