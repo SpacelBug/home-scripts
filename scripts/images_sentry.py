@@ -16,6 +16,7 @@ def get_images_list(path):
                     'path': f'{os.getcwd()}\{path}\{file_name}',
                     'name': file_name,
                     'resolution': image_resolution,
+                    'extension': file_name.split('.')[len(file_name.split('.'))-1]
                 })
                 image.close()
             except Exception as error:
@@ -24,7 +25,7 @@ def get_images_list(path):
     return images_list
 
 
-def sort_images_by_resolution(from_path='.', to_path='.'):
+def sort_images_by_param(from_path='.', to_path='.', param='resolution'):
 
     images_list = get_images_list(from_path)
 
@@ -32,8 +33,8 @@ def sort_images_by_resolution(from_path='.', to_path='.'):
         os.makedirs(to_path)
 
     for image in images_list:
-        if not os.path.exists(image.get('resolution')):
-            os.makedirs(image.get('resolution'))
-        os.rename(image.get('path'), f"{to_path}\\{image.get('resolution')}\\{image.get('name')}")
+        if not os.path.exists(image.get(param)):
+            os.makedirs(image.get(param))
+        os.rename(image.get('path'), f"{to_path}\\{image.get(param)}\\{image.get('name')}")
 
     return get_images_list(to_path)
