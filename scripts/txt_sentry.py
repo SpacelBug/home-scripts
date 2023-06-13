@@ -16,9 +16,11 @@ def get_data_from_file(path):
 
     text_file = open(path)
 
-    print(text_file.read())
+    file_data = text_file.read()
 
     text_file.close()
+
+    return file_data
 
 
 def change_word_in_txt(path, target, new_value):
