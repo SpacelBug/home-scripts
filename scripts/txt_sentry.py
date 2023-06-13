@@ -14,9 +14,11 @@ def get_list_of_txt(path):
 
 def get_data_from_file(path):
 
-    file = open(path)
+    text_file = open(path)
 
-    print(file.read())
+    print(text_file.read())
+
+    text_file.close()
 
 
 def change_word_in_txt(path, target, new_value):
