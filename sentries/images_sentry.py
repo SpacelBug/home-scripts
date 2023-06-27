@@ -13,7 +13,7 @@ def get_images_list(path):
                 image = Image.open(f'{path}\{file_name}')
                 image_resolution = f'{image.size[0]}-{image.size[1]}'
                 images_list.append({
-                    'path': f'{os.getcwd()}\{path}\{file_name}',
+                    'path': f'{path}\{file_name}',
                     'name': file_name,
                     'resolution': image_resolution,
                     'extension': file_name.split('.')[len(file_name.split('.'))-1]
@@ -33,8 +33,8 @@ def sort_images_by_param(from_path='.', to_path='.', param='resolution'):
         os.makedirs(to_path)
 
     for image in images_list:
-        if not os.path.exists(image.get(param)):
-            os.makedirs(image.get(param))
-        os.rename(image.get('path'), f"{to_path}\\{image.get(param)}\\{image.get('name')}")
+        if not os.path.exists(f"{to_path}\\{image.get(param)}"):
+            os.makedirs(f"{to_path}\\{image.get(param)}")
+        os.rename(image.get('path'), f"{to_path}\\{image.get(param)}\\{image.get('name').replace(' ', '_')}")
 
     return get_images_list(to_path)
