@@ -31,17 +31,11 @@ def split_on_frames(file_path):
         ffmpeg.input(file_path).output(f'{directory}\\frames\\img%03d.png').run()
 
 
-def frames_to_video(images_dir, name='test.mp4', fps=24):
+def frames_to_video(images_dir, name='test.mp4', framerate=24):
 
-    img = []
+    command = (
+        f"ffmpeg -y -framerate {framerate} -i {images_dir}\\img%03d.png -c:v libx264 -pix_fmt yuv420p {name}"
+    )
 
-    for dir_path, dirs, files in os.walk(images_dir):
-        for f in files:
-            img.append(os.path.abspath(os.path.join(dir_path, f)))
-
-    clips = [ImageClip(m).set_duration(2)
-             for m in img]
-
-    concat_clip = concatenate_videoclips(clips, method="compose")
-    concat_clip.write_videofile(name, fps=fps)
+    os.system(command)
 
