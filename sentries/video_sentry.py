@@ -20,15 +20,15 @@ def get_audio(path):
     return video_file.audio
 
 
-def split_on_frames(path, name):
+def split_on_frames(file_path):
 
-    os.chdir(path)
+    directory = os.path.dirname(file_path)
 
-    if os.path.exists(name):
+    if os.path.exists(file_path):
 
-        os.mkdir('frames') if not os.path.exists(f"{path}\\frames") else None
+        os.mkdir(f'{directory}\\frames') if not os.path.exists(f'{directory}\\frames') else None
 
-        ffmpeg.input(name).output('frames/img%03d.png').run()
+        ffmpeg.input(file_path).output(f'{directory}\\frames\\img%03d.png').run()
 
 
 def frames_to_video(images_dir, name='test.mp4', fps=24):
