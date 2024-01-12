@@ -5,9 +5,6 @@ import os
 class File:
     """
     Класс для файлов. Хранит путь к файлу, тип, информацию о нем и его название.
-
-    :init path - путь к файлу.
-    :init name - название файла.
     """
     def __init__(self, path: str, name: str):
         self.path = path
@@ -17,7 +14,10 @@ class File:
 
 
 class Directory:
-
+    """
+    Класс для директорий. Хранит путь к директории, ее название, путь к родителю и директории в ней, которые заданы
+    этим же классом.
+    """
     def __init__(self, path: str):
         self.path = os.path.abspath(path)
         self.name = os.path.basename(self.path)
