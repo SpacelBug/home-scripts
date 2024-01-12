@@ -1,7 +1,6 @@
 from moviepy.editor import VideoFileClip, ImageClip, concatenate_videoclips
+import ffmpeg
 import os
-
-
 
 
 def print_video_info(path):
@@ -21,10 +20,15 @@ def get_audio(path):
     return video_file.audio
 
 
-def split_on_frames(path):
-    video_file = VideoFileClip(path)
+def split_on_frames(path, name):
 
-    video_file.write_images_sequence("frames/frame%05d.png")
+    os.chdir(path)
+
+    if os.path.exists(name):
+
+        os.mkdir('frames') if not os.path.exists(f"{path}\\frames") else None
+
+        ffmpeg.input(name).output('frames/img%03d.png').run()
 
 
 def frames_to_video(images_dir, name='test.mp4', fps=24):
