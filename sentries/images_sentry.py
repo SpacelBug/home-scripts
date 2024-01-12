@@ -38,3 +38,19 @@ def sort_images_by_param(from_path='.', to_path='.', param='resolution'):
         os.rename(image.get('path'), f"{to_path}\\{image.get(param)}\\{image.get('name').replace(' ', '_')}")
 
     return get_images_list(to_path)
+
+
+def rename_images_with_numbers(path):
+
+    images_list = get_images_list(path)
+
+    images_counter = 1
+
+    for image in images_list:
+
+        os.rename(
+            image.get('path'),
+            image.get('path').replace(image.get('name'), f"{images_counter}.{image.get('extension')}")
+        )
+
+        images_counter += 1

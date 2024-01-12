@@ -25,12 +25,12 @@ def get_data_from_file(path):
 
 def change_word_in_txt(path, target, new_value):
 
-    text_file = open(path, "w+")
+    with open(path, "r") as text_file:
 
-    file_data = text_file.read()
+        old_file_data = text_file.read()
 
-    file_data = file_data.replace(target, new_value)
+    new_file_data = old_file_data.replace(target, new_value)
 
-    text_file.write(file_data)
+    with open(path, "w") as text_file:
 
-    text_file.close()
+        text_file.write(new_file_data)
