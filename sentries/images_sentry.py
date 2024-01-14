@@ -4,7 +4,11 @@ from PIL import Image
 
 
 def get_images_list(path):
+    """
+    Получение списка изображений в указанной директории path и всех ее дочерних директориях
 
+    :param path путь к папке
+    """
     images_list = []
 
     for path, directories, file_names in os.walk(path):
@@ -26,7 +30,13 @@ def get_images_list(path):
 
 
 def sort_images_by_param(from_path='.', to_path='.', param='resolution'):
+    """
+    Сортирует все изображения по папкам в соответствии с указанным параметром (по умолчанию - resolution)
 
+    :param from_path из этой директории.
+    :param to_path в эту директорию.
+    :param param по данному параметру.
+    """
     images_list = get_images_list(from_path)
 
     if not os.path.exists(to_path):
@@ -41,7 +51,9 @@ def sort_images_by_param(from_path='.', to_path='.', param='resolution'):
 
 
 def rename_images_with_numbers(path):
-
+    """
+    Переименовывает изображения нумеруя их по порядку
+    """
     images_list = get_images_list(path)
 
     images_counter = 1

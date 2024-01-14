@@ -2,6 +2,9 @@ import os
 
 
 def get_list_of_txt(path):
+    """
+    Возвращает список текстовых файлов
+    """
     files_list = []
 
     for path, directories, file_names in os.walk(path):
@@ -13,7 +16,9 @@ def get_list_of_txt(path):
 
 
 def get_data_from_file(path):
-
+    """
+    Возвращает данные из файла
+    """
     text_file = open(path)
 
     file_data = text_file.read()
@@ -24,7 +29,13 @@ def get_data_from_file(path):
 
 
 def change_word_in_txt(path, target, new_value):
+    """
+    Меняет подстроку в файле
 
+    :param path путь к файлу.
+    :param target подстрока которую будем менять.
+    :param new_value новое значение.
+    """
     with open(path, "r") as text_file:
 
         old_file_data = text_file.read()
