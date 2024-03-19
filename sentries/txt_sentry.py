@@ -1,5 +1,7 @@
 import os
 
+from sentries import explorer
+
 
 def get_list_of_txt(path):
     """
@@ -7,10 +9,9 @@ def get_list_of_txt(path):
     """
     files_list = []
 
-    for path, directories, file_names in os.walk(path):
-        for file_name in file_names:
-            if file_name.split('.')[1] == 'txt':
-                files_list.append(f'{path}\\{file_name}')
+    for file in explorer.Directory(path).get_all_files():
+        if file.type == 'text/plain':
+            files_list.append(file)
 
     return files_list
 
