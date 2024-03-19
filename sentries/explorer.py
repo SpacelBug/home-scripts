@@ -44,6 +44,14 @@ class Directory:
         for path in dirs_path:
             yield Directory(path)
 
+    def get_all_files(self):
+        files = [file for file in self.files]
+
+        for dir in self.dirs:
+            files = files + dir.get_all_files()
+
+        return files
+
     def navigate(self) -> None:
 
         while True:
