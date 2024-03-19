@@ -6,6 +6,13 @@ from PIL import Image
 from sentries import explorer
 
 
+class ImageFile(explorer.File):
+    def __init__(self, path: str, name: str):
+        super().__init__(path, name)
+
+        self.resolution = self.info.split(',')[1]
+
+
 def get_images_list(path):
     """
     Получение списка изображений в указанной директории path и всех ее дочерних директориях
@@ -16,7 +23,7 @@ def get_images_list(path):
 
     for file in explorer.Directory(path).get_all_files():
         if file.type.split('/')[0] == 'image':
-            images_list.append(file)
+            images_list.append(ImageFile(file.path, file.name))
 
     return images_list
 
