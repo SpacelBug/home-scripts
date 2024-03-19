@@ -13,9 +13,13 @@ class File:
         self.type = magic.from_file(path, mime=True)
         self.info = magic.from_file(path)
 
-        self.active_datetime = datetime.fromtimestamp(os.stat(path).st_atime)
-        self.mode_datetime = datetime.fromtimestamp(os.stat(path).st_mtime)
-        self.create_datetime = datetime.fromtimestamp(os.stat(path).st_ctime)
+        self.active_date = datetime.fromtimestamp(os.stat(path).st_atime).date()
+        self.mode_date = datetime.fromtimestamp(os.stat(path).st_mtime).date()
+        self.create_date = datetime.fromtimestamp(os.stat(path).st_ctime).date()
+
+        self.active_time = datetime.fromtimestamp(os.stat(path).st_atime).time()
+        self.mode_time = datetime.fromtimestamp(os.stat(path).st_mtime).time()
+        self.create_time = datetime.fromtimestamp(os.stat(path).st_ctime).time()
 
         self.name = name
 
