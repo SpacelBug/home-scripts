@@ -1,5 +1,7 @@
-import magic
 import os
+from datetime import datetime
+
+import magic
 
 
 class File:
@@ -10,6 +12,11 @@ class File:
         self.path = path
         self.type = magic.from_file(path, mime=True)
         self.info = magic.from_file(path)
+
+        self.active_datetime = datetime.fromtimestamp(os.stat(path).st_atime)
+        self.mode_datetime = datetime.fromtimestamp(os.stat(path).st_mtime)
+        self.create_datetime = datetime.fromtimestamp(os.stat(path).st_ctime)
+
         self.name = name
 
 
