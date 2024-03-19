@@ -35,6 +35,7 @@ def sort_images_by_param(from_path, to_path, param='resolution', copy=True):
     :param from_path из этой директории.
     :param to_path в эту директорию.
     :param param по данному параметру.
+    :param copy если false то перемешает файлы а не копирует
     """
     images_list = get_images_list(from_path)
 
@@ -42,12 +43,13 @@ def sort_images_by_param(from_path, to_path, param='resolution', copy=True):
         os.makedirs(to_path)
 
     for image in images_list:
-        if not os.path.exists(f"{to_path}\\{image.get(param)}"):
-            os.makedirs(f"{to_path}\\{image.get(param)}")
-        if copy:
-            shutil.copy2(image.get('path'), f"{to_path}\\{image.get(param)}\\{image.get('name').replace(' ', '_')}")
-        else:
-            shutil.move(image.get('path'), f"{to_path}\\{image.get(param)}\\{image.get('name').replace(' ', '_')}")
+        if hasattr(image, param):
+            if not os.path.exists(f"{to_path}\\{getattr(image, param)}"):
+                os.makedirs(f"{to_path}\\{getattr(image, param)}")
+            if copy:
+                shutil.copy2(image.path, f"{to_path}\\{getattr(image, param)}\\{image.name.replace(' ', '_')}")
+            else:
+                shutil.move(image.path, f"{to_path}\\{getattr(image, param)}\\{image.name.replace(' ', '_')}")
 
     return get_images_list(to_path)
 
