@@ -65,8 +65,8 @@ def rename_images_with_numbers(path):
     for image in images_list:
 
         os.rename(
-            image.get('path'),
-            image.get('path').replace(image.get('name'), f"{images_counter}.{image.get('extension')}")
+            image.path,
+            image.path.replace(image.name, f"{images_counter}.{image.name.split('.')[len(image.name.split('.')) - 1]}")
         )
 
         images_counter += 1
