@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from PIL import Image
 
@@ -29,7 +30,7 @@ def get_images_list(path):
     return images_list
 
 
-def sort_images_by_param(from_path='.', to_path='.', param='resolution'):
+def sort_images_by_param(from_path, to_path, param='resolution', copy=True):
     """
     Сортирует все изображения по папкам в соответствии с указанным параметром (по умолчанию - resolution)
 
@@ -45,7 +46,10 @@ def sort_images_by_param(from_path='.', to_path='.', param='resolution'):
     for image in images_list:
         if not os.path.exists(f"{to_path}\\{image.get(param)}"):
             os.makedirs(f"{to_path}\\{image.get(param)}")
-        os.rename(image.get('path'), f"{to_path}\\{image.get(param)}\\{image.get('name').replace(' ', '_')}")
+        if copy:
+            shutil.copy2(image.get('path'), f"{to_path}\\{image.get(param)}\\{image.get('name').replace(' ', '_')}")
+        else:
+            shutil.move(image.get('path'), f"{to_path}\\{image.get(param)}\\{image.get('name').replace(' ', '_')}")
 
     return get_images_list(to_path)
 
