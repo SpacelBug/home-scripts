@@ -3,6 +3,8 @@ import shutil
 
 from PIL import Image
 
+from sentries import explorer
+
 
 def get_images_list(path):
     """
@@ -12,20 +14,9 @@ def get_images_list(path):
     """
     images_list = []
 
-    for path, directories, file_names in os.walk(path):
-        for file_name in file_names:
-            try:
-                image = Image.open(f'{path}\{file_name}')
-                image_resolution = f'{image.size[0]}-{image.size[1]}'
-                images_list.append({
-                    'path': f'{path}\{file_name}',
-                    'name': file_name,
-                    'resolution': image_resolution,
-                    'extension': file_name.split('.')[len(file_name.split('.'))-1]
-                })
-                image.close()
-            except Exception as error:
-                print(f"Error with file  '{file_name}' - {error}")
+    for file in explorer.Directory(path).get_all_files():
+        if file.type.split('/')[0] == 'image':
+            images_list.append(file)
 
     return images_list
 
