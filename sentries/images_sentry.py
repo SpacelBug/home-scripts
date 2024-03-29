@@ -10,7 +10,8 @@ class ImageFile(explorer.File):
     def __init__(self, path: str, name: str):
         super().__init__(path, name)
 
-        self.resolution = self.info.split(',')[1]
+        with Image.open(self.path) as image:
+            self.resolution = image.size
 
 
 def get_images_list(path):
