@@ -17,6 +17,7 @@ debugpy==1.8.1
 decorator==4.4.2
 defusedxml==0.7.1
 executing==2.0.1
+exif==1.6.0
 fastjsonschema==2.19.1
 ffmpeg-python==0.2.0
 fqdn==1.5.1
@@ -66,6 +67,7 @@ pandocfilters==1.5.1
 parso==0.8.3
 pillow==10.2.0
 platformdirs==4.2.0
+plum-py==0.8.7
 proglog==0.1.10
 prometheus_client==0.20.0
 prompt-toolkit==3.0.43
