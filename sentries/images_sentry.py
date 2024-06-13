@@ -11,7 +11,12 @@ class ImageFile(explorer.File):
         super().__init__(path, name)
 
         with Image.open(self.path) as image:
-            self.resolution = image.size
+            self.resolution = 'x'.join([str(value) for value in image.size])
+
+    def get_info(self):
+
+        with Image.open(self.path) as image:
+            return image.info
 
 
 def get_images_list(path):
