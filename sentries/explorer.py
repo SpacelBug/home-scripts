@@ -10,7 +10,7 @@ class File:
     """
     def __init__(self, path: str, name: str):
         self.path = path
-        self.type = magic.from_file(path, mime=True)
+        self.extension = os.path.splitext(path)[1]
         self.info = magic.from_file(path)
 
         self.active_date = datetime.fromtimestamp(os.stat(path).st_atime).date()
