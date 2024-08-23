@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from PIL import Image
+from PIL import Image, ImageChops
 
 from sentries import explorer
 
@@ -76,3 +76,15 @@ def rename_images_with_numbers(path):
         )
 
         images_counter += 1
+
+
+def image_pixel_differences(base_image: Image, compare_image: Image) -> bool:
+    """
+    Сравнивает два изображения
+    """
+    diff = ImageChops.difference(base_image, compare_image)
+
+    if diff.getbbox():
+        return False
+    else:
+        return True
