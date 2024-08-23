@@ -28,7 +28,7 @@ def get_images_list(path):
     images_list = []
 
     for file in explorer.Directory(path).get_all_files():
-        if file.type.split('/')[0] == 'image':
+        if file.extension in ['.png', '.jpg', '.jpeg']:
             images_list.append(ImageFile(file.path, file.name))
 
     return images_list
