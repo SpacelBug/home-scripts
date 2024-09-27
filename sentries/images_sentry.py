@@ -82,9 +82,12 @@ def image_pixel_differences(base_image: Image, compare_image: Image) -> bool:
     """
     Сравнивает два изображения
     """
-    diff = ImageChops.difference(base_image, compare_image)
+    if base_image.size == compare_image.size:
+        diff = ImageChops.difference(base_image, compare_image)
 
-    if diff.getbbox():
-        return False
+        if diff.getbbox():
+            return False
+        else:
+            return True
     else:
-        return True
+        return False
