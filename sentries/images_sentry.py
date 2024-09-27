@@ -91,3 +91,26 @@ def image_pixel_differences(base_image: ImageFile, compare_image: ImageFile) -> 
             return True
     else:
         return False
+
+
+def find_image_clones(path):
+    """
+    Ищет все копии изображений в указанной директории
+    """
+    images = get_images_list(path)
+
+    cache = []
+    result = {}
+
+    for first_image in images:
+        first_image_copies = []
+        for second_image in images:
+            if first_image.path != second_image.path:
+                if first_image.path not in cache:
+                    if image_pixel_differences(first_image, second_image):
+                        cache.append(second_image.path)
+                        first_image_copies.append(second_image.path)
+        if first_image_copies:
+            result[first_image.path] = first_image_copies
+
+    return result
