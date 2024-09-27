@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from PIL import Image
+from PIL import Image, ImageChops
 
 from sentries import explorer
 
@@ -28,7 +28,7 @@ def get_images_list(path):
     images_list = []
 
     for file in explorer.Directory(path).get_all_files():
-        if file.type.split('/')[0] == 'image':
+        if file.extension in ['png', 'jpg', 'jpeg']:
             images_list.append(ImageFile(file.path, file.name))
 
     return images_list
@@ -76,3 +76,41 @@ def rename_images_with_numbers(path):
         )
 
         images_counter += 1
+
+
+def image_pixel_differences(base_image: ImageFile, compare_image: ImageFile) -> bool:
+    """
+    Сравнивает два изображения
+    """
+    if base_image.resolution == compare_image.resolution:
+        diff = ImageChops.difference(Image.open(base_image.path), Image.open(compare_image.path))
+
+        if diff.getbbox():
+            return False
+        else:
+            return True
+    else:
+        return False
+
+
+def find_image_clones(path):
+    """
+    Ищет все копии изображений в указанной директории
+    """
+    images = get_images_list(path)
+
+    cache = []
+    result = {}
+
+    for first_image in images:
+        first_image_copies = []
+        for second_image in images:
+            if first_image.path != second_image.path:
+                if first_image.path not in cache:
+                    if image_pixel_differences(first_image, second_image):
+                        cache.append(second_image.path)
+                        first_image_copies.append(second_image.path)
+        if first_image_copies:
+            result[first_image.path] = first_image_copies
+
+    return result
