@@ -78,12 +78,12 @@ def rename_images_with_numbers(path):
         images_counter += 1
 
 
-def image_pixel_differences(base_image: Image, compare_image: Image) -> bool:
+def image_pixel_differences(base_image: ImageFile, compare_image: ImageFile) -> bool:
     """
     Сравнивает два изображения
     """
-    if base_image.size == compare_image.size:
-        diff = ImageChops.difference(base_image, compare_image)
+    if base_image.resolution == compare_image.resolution:
+        diff = ImageChops.difference(Image.open(base_image.path), Image.open(compare_image.path))
 
         if diff.getbbox():
             return False
