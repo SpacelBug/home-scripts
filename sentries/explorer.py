@@ -12,6 +12,7 @@ class File:
         self.path = path
         self.type = magic.from_file(path, mime=True)
         self.info = magic.from_file(path)
+        self.extension = path.split('.')[-1]
 
         self.active_date = datetime.fromtimestamp(os.stat(path).st_atime).date()
         self.mode_date = datetime.fromtimestamp(os.stat(path).st_mtime).date()
