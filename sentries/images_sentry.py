@@ -3,6 +3,8 @@ import shutil
 
 from PIL import Image, ImageChops
 
+import piexif
+
 from sentries import explorer
 
 
@@ -17,6 +19,40 @@ class ImageFile(explorer.File):
 
         with Image.open(self.path) as image:
             return image.info
+
+    def get_exif(self):
+        """
+        Возвращает словарь exif изображения.
+        Return dict of image exif.
+        """
+        with Image.open(self.path) as img:
+            exif_data = piexif.load(img.info["exif"])
+
+            decode_exif = {}
+
+            for tag, value in exif_data['Exif'].items():
+                decode_exif[tag] = value.decode('utf-16', errors='ignore')
+
+            return decode_exif
+
+    def add_tags_to_image(self, tags: list):
+        """
+        Записывает тэги в поле UserComment в exif изображения.
+        Put tags into image exif`s UserComment tag.
+
+        :param tags: list of tags
+        """
+
+        image = Image.open(self.path)
+
+        exif_dict = piexif.load(image.info['exif'])
+
+        tags_string = ', '.join(tags)
+
+        exif_dict['Exif'][piexif.ExifIFD.UserComment] = tags_string.encode('utf-16')
+
+        exif_bytes = piexif.dump(exif_dict)
+        image.save(self.path, exif=exif_bytes)
 
 
 def get_images_list(path):
