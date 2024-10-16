@@ -1,28 +1,37 @@
 import os
+import platform
 from datetime import datetime
 
 import magic
 
+import win32com.client
 
 class File:
     """
     Класс для файлов. Хранит путь к файлу, тип, информацию о нем и его название.
     """
-    def __init__(self, path: str, name: str):
-        self.path = path
-        self.extension = os.path.splitext(path)[1]
-        self.info = magic.from_file(path)
-        self.extension = path.split('.')[-1]
+    def __init__(self, root: str, name: str):
+        self.path = f'{root}\\{name}'
+        self.root = root
+        self.extension = os.path.splitext(self.path)[1]
+        self.extension = self.path.split('.')[-1]
 
-        self.active_date = datetime.fromtimestamp(os.stat(path).st_atime).date()
-        self.mode_date = datetime.fromtimestamp(os.stat(path).st_mtime).date()
-        self.create_date = datetime.fromtimestamp(os.stat(path).st_ctime).date()
+        self.active_date = datetime.fromtimestamp(os.stat(self.path).st_atime).date()
+        self.mode_date = datetime.fromtimestamp(os.stat(self.path).st_mtime).date()
+        self.create_date = datetime.fromtimestamp(os.stat(self.path).st_ctime).date()
 
-        self.active_time = datetime.fromtimestamp(os.stat(path).st_atime).time()
-        self.mode_time = datetime.fromtimestamp(os.stat(path).st_mtime).time()
-        self.create_time = datetime.fromtimestamp(os.stat(path).st_ctime).time()
+        self.active_time = datetime.fromtimestamp(os.stat(self.path).st_atime).time()
+        self.mode_time = datetime.fromtimestamp(os.stat(self.path).st_mtime).time()
+        self.create_time = datetime.fromtimestamp(os.stat(self.path).st_ctime).time()
 
         self.name = name
+
+        # Extra params
+        try:
+            self.info = magic.from_file(self.path)
+        except Exception as error:
+            print(error)
+            self.info = None
 
 
 class Directory:
@@ -63,6 +72,16 @@ class Directory:
             files = files + dir.get_all_files()
 
         return files
+
+    def find_files(self, search_string):
+        found_files = []
+
+        for root, dirs, files in os.walk(self.path):
+            for file_name in files:
+                if search_string in file_name:
+                    found_files.append(File(root, file_name))
+
+        return found_files
 
     def navigate(self) -> None:
 
