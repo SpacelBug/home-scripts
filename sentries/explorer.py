@@ -10,9 +10,8 @@ class File:
     """
     Класс для файлов. Хранит путь к файлу, тип, информацию о нем и его название.
     """
-    def __init__(self, root: str, name: str):
-        self.path = f'{root}\\{name}'
-        self.root = root
+    def __init__(self, path: str, name: str):
+        self.path = path
         self.extension = os.path.splitext(self.path)[1]
         self.extension = self.path.split('.')[-1]
 
@@ -79,7 +78,8 @@ class Directory:
         for root, dirs, files in os.walk(self.path):
             for file_name in files:
                 if search_string in file_name:
-                    found_files.append(File(root, file_name))
+                    path = f'{root}\\{file_name}'
+                    found_files.append(File(path, file_name))
 
         return found_files
 
