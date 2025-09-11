@@ -35,8 +35,26 @@ class File:
 
 class Directory:
     """
+    # RUS
+
     Класс для директорий. Хранит путь к директории, ее название, путь к родителю и директории в ней, которые заданы
     этим же классом.
+
+    # ENG
+
+    Methods
+    -------
+    get_all_files(self):
+    find_files(self, search_string):
+    navigate(self):
+
+    Attributes
+    ----------
+    path : str
+    name : str
+    parent_path : str
+    files : list[File]
+    dirs : list[Directory]
     """
     def __init__(self, path: str):
         self.path = os.path.abspath(path)
@@ -56,15 +74,30 @@ class Directory:
         self.files = self.__files_generator(files_params)
         self.dirs = self.__directories_genetator(dirs_path)
 
-    def __files_generator(self, files: list):
+    def __files_generator(self, files: list[File]):
+        """
+        # Rus
+
+        Приватный метод реализующий генератор файлов
+        """
         for file_params in files:
             yield File(**file_params)
 
     def __directories_genetator(self, dirs_path: list):
+        """
+        # Rus
+
+        Приватный метод реализующий генератор директорий
+        """
         for path in dirs_path:
             yield Directory(path)
 
-    def get_all_files(self):
+    def get_all_files(self) -> list[File]:
+        """
+        # Rus
+
+        Метод возвращающий список всех файлов в директории и ее поддиректориях
+        """
         files = [file for file in self.files]
 
         for dir in self.dirs:
@@ -72,7 +105,12 @@ class Directory:
 
         return files
 
-    def find_files(self, search_string):
+    def find_files(self, search_string: str) -> list[File]:
+        """
+        # Rus
+
+        Метод поиска файла по имени
+        """
         found_files = []
 
         for root, dirs, files in os.walk(self.path):
@@ -84,7 +122,11 @@ class Directory:
         return found_files
 
     def navigate(self) -> None:
+        """
+        # Rus
 
+        Метод для консольной навигации по папкам
+        """
         while True:
 
             directories = [Directory(self.parent_path)] + [directory for directory in self.dirs]
