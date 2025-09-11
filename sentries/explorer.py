@@ -121,6 +121,25 @@ class Directory:
 
         return found_files
 
+    def find_files_with_same_size(self) -> dict[int, list[File]]:
+        """
+        # Rus
+
+        Метод для поиска файлов с одинаковым размером
+        """
+        files = self.get_all_files()
+        size_dict = {}
+
+        for file in files:
+            if os.path.getsize(file.path) not in size_dict:
+                size_dict[os.path.getsize(file.path)] = []
+            size_dict[os.path.getsize(file.path)].append(file.name)
+
+        # Удаляем размеры, которые не имеют дубликатов
+        size_dict = {size: files for size, files in size_dict.items() if len(files) > 1}
+
+        return size_dict
+
     def navigate(self) -> None:
         """
         # Rus
