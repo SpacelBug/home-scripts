@@ -6,14 +6,16 @@ import magic
 
 import win32com.client
 
+
 class File:
     """
     Класс для файлов. Хранит путь к файлу, тип, информацию о нем и его название.
     """
+
     def __init__(self, path: str, name: str):
         self.path = path
         self.extension = os.path.splitext(self.path)[1]
-        self.extension = self.path.split('.')[-1]
+        self.extension = self.path.split(".")[-1]
 
         self.active_date = datetime.fromtimestamp(os.stat(self.path).st_atime).date()
         self.mode_date = datetime.fromtimestamp(os.stat(self.path).st_mtime).date()
@@ -56,6 +58,7 @@ class Directory:
     files : list[File]
     dirs : list[Directory]
     """
+
     def __init__(self, path: str):
         self.path = os.path.abspath(path)
         self.name = os.path.basename(self.path)
@@ -67,7 +70,7 @@ class Directory:
         with os.scandir(path) as list_of_entries:
             for entry in list_of_entries:
                 if entry.is_file():
-                    files_params.append({'path': entry.path, 'name': entry.name})
+                    files_params.append({"path": entry.path, "name": entry.name})
                 else:
                     dirs_path.append(entry.path)
 
@@ -171,7 +174,9 @@ class Directory:
         """
         while True:
 
-            directories = [Directory(self.parent_path)] + [directory for directory in self.dirs]
+            directories = [Directory(self.parent_path)] + [
+                directory for directory in self.dirs
+            ]
             print(f"\nDirectories in '{self.name}':")
 
             counter = 0
@@ -180,12 +185,16 @@ class Directory:
                 counter += 1
 
             try:
-                selected_directory_index = int(input('Select dir by number (symbol will stop navigation) '))
+                selected_directory_index = int(
+                    input("Select dir by number (symbol will stop navigation) ")
+                )
             except ValueError as error:
                 break
 
-            if (selected_directory_index >= 0) and (selected_directory_index < len(directories)):
+            if (selected_directory_index >= 0) and (
+                selected_directory_index < len(directories)
+            ):
                 self.__init__(directories[selected_directory_index].path)
             else:
-                print('Wrong index!')
+                print("Wrong index!")
                 self.__init__(self.path)
