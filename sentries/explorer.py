@@ -116,8 +116,31 @@ class Directory:
         for root, dirs, files in os.walk(self.path):
             for file_name in files:
                 if search_string in file_name:
-                    path = f'{root}\\{file_name}'
+                    path = f"{root}\\{file_name}"
                     found_files.append(File(path, file_name))
+
+        return found_files
+
+    def find_files_by_extensions(self, search_string: str | list[str]) -> list[File]:
+        """
+        # Rus
+
+        Метод поиска файлов по расширению
+        (расширения указывать без точки)
+        """
+        found_files = []
+
+        for root, dirs, files in os.walk(self.path):
+            for file_name in files:
+                if isinstance(search_string, list):
+                    extension = file_name.split('.').pop()
+                    if extension in search_string:
+                        path = f"{root}\\{file_name}"
+                        found_files.append(File(path, file_name))
+                else:
+                    if search_string in file_name:
+                        path = f"{root}\\{file_name}"
+                        found_files.append(File(path, file_name))
 
         return found_files
 
